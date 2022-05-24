@@ -5,6 +5,9 @@ from sqlalchemy import pool
 
 from alembic import context
 
+from flask_hexagonal.infrastructure.sqlalchemy.base import Base
+import settings
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
@@ -18,12 +21,18 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
+section = config.config_ini_section
+config.set_section_option(section, "DB_USER", settings.DB_USER)
+config.set_section_option(section, "DB_PASS", settings.DB_PASS)
+config.set_section_option(section, "DB_HOST", settings.DB_HOST)
+config.set_section_option(section, "DB_PORT", settings.DB_PORT)
+config.set_section_option(section, "DB_NAME", settings.DB_NAME)
 
 
 def run_migrations_offline():
@@ -38,7 +47,8 @@ def run_migrations_offline():
     script output.
 
     """
-    url = config.get_main_option("sqlalchemy.url")
+    # url = config.get_main_option("sqlalchemy.url")
+    url = settings.build_database_uri()
     context.configure(
         url=url,
         target_metadata=target_metadata,
