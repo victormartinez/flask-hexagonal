@@ -1,7 +1,7 @@
 from flask import Blueprint, Flask
 from flask_restful import Api
 
-from .templates_resource import ListTemplatesResource
+from .templates import ListTemplatesResource
 
 
 

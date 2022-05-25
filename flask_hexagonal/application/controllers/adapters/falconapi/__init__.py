@@ -1,6 +1,6 @@
 from falcon import App
 
-from.templates_resource import ListTemplatesResource
+from.templates import ListTemplatesResource
 
 
 def create_app(*args, **config):

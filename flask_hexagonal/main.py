@@ -1,4 +1,4 @@
-from flask_hexagonal.application.adapters.controllers import (
+from flask_hexagonal.application.controllers.adapters import (
     falconapi,
     flaskapi,
 )
