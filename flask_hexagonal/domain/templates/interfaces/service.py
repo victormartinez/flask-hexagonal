@@ -10,7 +10,7 @@ class TemplateServiceInterface:
 
     def get_template(self, id: str) -> TemplateInterface:
         raise NotImplementedError()
-        
+
     def import_template(self, external_id: str) -> TemplateInterface:
         raise NotImplementedError()
 
