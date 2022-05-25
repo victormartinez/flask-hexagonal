@@ -5,7 +5,7 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from flask_hexagonal.infrastructure.sqlalchemy.base import Base
+from flask_hexagonal.infrastructure.database.base import Base
 import settings
 
 # this is the Alembic Config object, which provides
