@@ -6,7 +6,6 @@ from .repository import (
     RetrieveTemplateRepositoryInterface,
     PersistTemplateRepositoryInterface
 )
-from .service import TemplateServiceInterface
 
 
 __all__ = (
@@ -17,5 +16,4 @@ __all__ = (
     "PersistTemplateRepositoryInterface",
     "ExternalTemplateInterface",
     "TemplateInterface",
-    "TemplateServiceInterface",
 )
