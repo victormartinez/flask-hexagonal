@@ -18,7 +18,7 @@ class ListTemplatesController(ActionController):
             content=json.dumps({
                 "success": True,
                 "code": HTTPStatus.OK,
-                "message": "List of Templates",
+                "message": "List Templates",
                 "data": results,
             }),
             status=HTTPStatus.OK,

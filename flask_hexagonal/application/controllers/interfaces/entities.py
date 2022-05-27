@@ -15,4 +15,8 @@ class JsonResponse(BaseModel):
 
 
 class Request(BaseModel):
-    pass
+    path: str
+    query_string: bytes
+    method: str
+    data: bytes
+    headers: Dict[str, str]
