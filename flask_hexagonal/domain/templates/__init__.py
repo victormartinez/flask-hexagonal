@@ -11,11 +11,9 @@ from .interfaces import (
     PersistTemplateRepositoryInterface,
     TemplateInterface,
 )
-from .service import TemplateService
 
 
 __all__ = (
-    "TemplateService",
     "ExternalTemplateInterface",
     "TemplateInterface",
     "TemplateImportError",

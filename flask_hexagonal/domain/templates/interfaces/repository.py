@@ -21,7 +21,7 @@ class RetrieveTemplateRepositoryInterface:
         raise NotImplementedError("'RetrieveTemplateRepositoryInterface.get' must be implemented.")
 
 class ListTemplateRepositoryInterface:
-    def list(self, page: Optional[int] = None) -> List[TemplateInterface]:
+    def list(self) -> List[TemplateInterface]:
         raise NotImplementedError("'ListTemplateRepositoryInterface.list' must be implemented.")
 
 

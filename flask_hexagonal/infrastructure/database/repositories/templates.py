@@ -15,26 +15,20 @@ from flask_hexagonal.domain.templates import (
 
 class RetrieveDBTemplateRepository(RetrieveTemplateRepositoryInterface):
 
-    def _init__(self, Session: Type[Session] = Session):
-        self.Session = Session
-
     def get(self, idx: UUID) -> TemplateInterface:
         # TODO: handle errors
         # TODO: separate DB conn from Data Access
         query = select(DBTemplate).filter(DBTemplate.id == idx)
-        with self.Session.begin() as db_session:
+        with Session.begin() as db_session:
             result = db_session.execute(query)
             return result.scalars().first()
 
 
 class ListDBTemplateRepository(ListTemplateRepositoryInterface):
 
-    def _init__(self, Session: Type[Session] = Session):
-        self.Session = Session
-
     def list(self) -> List[TemplateInterface]:
         # TODO: handle errors
-        with self.Session.begin() as db_session:
+        with Session.begin() as db_session:
             query = select(DBTemplate)
             result = db_session.execute(query)
             return result.scalars().all()
@@ -42,11 +36,8 @@ class ListDBTemplateRepository(ListTemplateRepositoryInterface):
 
 class PersistDBTemplateRepository(PersistTemplateRepositoryInterface):
 
-    def _init__(self, Session: Type[Session] = Session):
-        self.Session = Session
-
     def insert(self, name: str, tokens: List[str], external_id: str) -> TemplateInterface:
-        with self.Session.begin() as db_session:
+        with Session.begin() as db_session:
             template = DBTemplate(name=name, tokens=tokens, external_id=external_id)
             db_session.add(template)
             db_session.commit()

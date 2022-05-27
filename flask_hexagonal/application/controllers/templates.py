@@ -13,12 +13,13 @@ from .interfaces import Request, JsonResponse, ActionController
 class ListTemplatesController(ActionController):
 
     def run(self, request: Request) -> JsonResponse:
+        results = service.list_templates(ListDBTemplateRepository())
         return JsonResponse(
-            content=json.dump({
+            content=json.dumps({
                 "success": True,
                 "code": HTTPStatus.OK,
                 "message": "List of Templates",
-                "data": service.list_templates(ListDBTemplateRepository()),
+                "data": results,
             }),
             status=HTTPStatus.OK,
         )
