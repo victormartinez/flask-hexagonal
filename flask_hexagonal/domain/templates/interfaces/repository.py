@@ -1,24 +1,30 @@
-from typing import List
+from typing import List, Optional
 
 from .entities import TemplateInterface, ExternalTemplateInterface
 
 
-class ExternalTemplateRepositoryInterface:
+class RetrieveExternalTemplateRepositoryInterface:
 
     def get(self, idx: str) -> ExternalTemplateInterface:
-        raise NotImplementedError("'ExternalTemplateRepositoryInterface.get_template' must be implemented.")
+        raise NotImplementedError("'RetrieveExternalTemplateRepositoryInterface.get_template' must be implemented.")
+
+
+class ListExternalTemplateTokensRepositoryInterface:
 
     def list_tokens(self, template_idx: str) -> List[str]:
-        raise NotImplementedError("'ExternalTemplateRepositoryInterface.list_tokens' must be implemented.")
+        raise NotImplementedError("'ListExternalTemplateTokensRepositoryInterface.list_tokens' must be implemented.")
 
 
-class TemplateRepositoryInterface:
+class RetrieveTemplateRepositoryInterface:
 
     def get(self, idx: str) -> TemplateInterface:
-        raise NotImplementedError("'TemplateRepositoryInterface.get' must be implemented.")
+        raise NotImplementedError("'RetrieveTemplateRepositoryInterface.get' must be implemented.")
 
-    def list(self) -> List[TemplateInterface]:
-        raise NotImplementedError("'TemplateRepositoryInterface.list' must be implemented.")
+class ListTemplateRepositoryInterface:
+    def list(self, page: Optional[int] = None) -> List[TemplateInterface]:
+        raise NotImplementedError("'ListTemplateRepositoryInterface.list' must be implemented.")
 
+
+class PersistTemplateRepositoryInterface:
     def insert(self, name: str, tokens: List[str], external_id: str) -> TemplateInterface:
-        raise NotImplementedError("'TemplateRepositoryInterface.insert' must be implemented.")
+        raise NotImplementedError("'PersistTemplateRepositoryInterface.insert' must be implemented.")

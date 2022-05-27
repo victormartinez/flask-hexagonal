@@ -4,7 +4,11 @@ from .exceptions import (
 )
 from .interfaces import (
     ExternalTemplateInterface,
-    TemplateRepositoryInterface,
+    ListExternalTemplateTokensRepositoryInterface,
+    RetrieveExternalTemplateRepositoryInterface,
+    ListTemplateRepositoryInterface,
+    RetrieveTemplateRepositoryInterface,
+    PersistTemplateRepositoryInterface,
     TemplateInterface,
 )
 from .service import TemplateService
@@ -14,7 +18,11 @@ __all__ = (
     "TemplateService",
     "ExternalTemplateInterface",
     "TemplateInterface",
-    "TemplateRepositoryInterface",
     "TemplateImportError",
     "TokenValidationError",
+    "ListExternalTemplateTokensRepositoryInterface",
+    "RetrieveExternalTemplateRepositoryInterface",
+    "ListTemplateRepositoryInterface",
+    "RetrieveTemplateRepositoryInterface",
+    "PersistTemplateRepositoryInterface",
 )
