@@ -20,6 +20,7 @@ class RetrieveDBTemplateRepository(RetrieveTemplateRepositoryInterface):
 
     def get(self, idx: UUID) -> TemplateInterface:
         # TODO: handle errors
+        # TODO: separate DB conn from Data Access
         query = select(DBTemplate).filter(DBTemplate.id == idx)
         with self.Session.begin() as db_session:
             result = db_session.execute(query)
