@@ -14,6 +14,10 @@ class TemplateInterface:
         raise NotImplementedError("Missing property 'name'.")
 
     @property
+    def external_id(self) -> str:
+        raise NotImplementedError("Missing property 'external_id'.")
+
+    @property
     def tokens(self) -> List[str]:
         raise NotImplementedError("Missing property 'tokens'.")
 
