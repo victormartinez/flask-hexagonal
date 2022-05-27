@@ -20,7 +20,7 @@ def list_templates(repository: ListTemplateRepositoryInterface) -> List[Template
 
 
 def get_template(id: str, repository: RetrieveTemplateRepositoryInterface) -> TemplateInterface:
-    return repository.get()
+    return repository.get(id)
 
 
 def import_template(external_id: str, external_repository: RetrieveExternalTemplateRepositoryInterface, repository: PersistTemplateRepositoryInterface) -> TemplateInterface:
