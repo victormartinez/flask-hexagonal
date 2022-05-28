@@ -1,4 +1,5 @@
 import uuid
+from typing import Any, Dict
 
 import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
@@ -24,3 +25,11 @@ class DBTemplate(Base):
         server_default=func.now(),
         onupdate=func.now(),
     )
+
+    def dict(self) -> Dict[Any, Any]:
+        return {
+            "id": str(self.id),
+            "name": self.name,
+            "tokens": self.tokens,
+            "external_id": self.external_id,
+        }
