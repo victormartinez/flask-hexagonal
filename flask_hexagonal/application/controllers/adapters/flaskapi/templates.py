@@ -12,7 +12,7 @@ from flask_hexagonal.application.controllers.templates import (
 
 def to_request():
     data = request.get_data()
-    payload = json.loads(data)
+    payload = json.loads(data) if data else None
     return Request(
         path=request.path,
         query_string=request.query_string,
@@ -20,6 +20,7 @@ def to_request():
         data=data,
         json_payload=payload,
         headers=request.headers,
+        view_args=request.view_args
     )
 
 
