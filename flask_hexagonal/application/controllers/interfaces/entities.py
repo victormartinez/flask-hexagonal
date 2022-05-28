@@ -1,17 +1,21 @@
 from http import HTTPStatus
-
 from pydantic import BaseModel
-from typing import Optional, List, Dict
-
-from flask import Response
+from typing import Optional, Dict, Any
 
 
-class JsonResponse(BaseModel):
+class ErrorResponseDetails(BaseModel):
 
-    content: str
+    message: str
+    type: str
+    details: Optional[Dict[str, str]] = {}
+
+
+class Response(BaseModel):
+
     status: HTTPStatus
-    headers: Optional[List[Dict[str, str]]]
     content_type: str = "application/json"
+    data: Optional[Dict[str, str]] = {}
+    error: Optional[ErrorResponseDetails] = None
 
 
 class Request(BaseModel):
@@ -19,4 +23,6 @@ class Request(BaseModel):
     query_string: bytes
     method: str
     data: bytes
-    headers: Dict[str, str]
+    json_payload: Optional[Dict[Any, Any]] = {}
+    headers: Optional[Dict[str, str]] = {}
+    view_args: Dict[str, str] = {}
