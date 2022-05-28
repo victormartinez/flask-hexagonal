@@ -1,7 +1,7 @@
-from .entities import JsonResponse, Request
+from .entities import Response, Request
 
 
 class ActionController:
 
-    def run(self, request: Request) -> JsonResponse:
+    def run(self, request: Request) -> Response:
         raise NotImplementedError()

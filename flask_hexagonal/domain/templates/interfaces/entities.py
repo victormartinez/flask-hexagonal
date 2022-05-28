@@ -1,6 +1,6 @@
 from uuid import UUID
 from datetime import datetime
-from typing import List
+from typing import Any, List, Dict
 
 
 class TemplateInterface:
@@ -24,6 +24,9 @@ class TemplateInterface:
     @property
     def created_at(self) -> datetime:
         raise NotImplementedError("Missing property 'created_at'.")
+
+    def dict(self) -> Dict[Any, Any]:
+        raise NotImplementedError("Missing method 'dict()'.")
 
 
 class ExternalTemplateInterface:

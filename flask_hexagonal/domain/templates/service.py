@@ -23,6 +23,15 @@ def get_template(id: str, repository: RetrieveTemplateRepositoryInterface) -> Te
     return repository.get(id)
 
 
+def create_template(
+        name: str,
+        tokens: List[str],
+        external_id: str,
+        repository: PersistTemplateRepositoryInterface
+    ) -> TemplateInterface:
+        return repository.insert(name, tokens, external_id)
+
+
 def import_template(external_id: str, external_repository: RetrieveExternalTemplateRepositoryInterface, repository: PersistTemplateRepositoryInterface) -> TemplateInterface:
     try:
         external_template: ExternalTemplateInterface = external_repository.get(external_id)
