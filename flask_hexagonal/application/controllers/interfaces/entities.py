@@ -14,7 +14,7 @@ class Response(BaseModel):
 
     status: HTTPStatus
     content_type: str = "application/json"
-    data: Optional[Dict[str, str]] = {}
+    data: Optional[Dict[str, Any]] = {}
     error: Optional[ErrorResponseDetails] = None
 
 
