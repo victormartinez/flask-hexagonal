@@ -21,7 +21,9 @@ class RetrieveDBTemplateRepository(RetrieveTemplateRepositoryInterface):
         query = select(DBTemplate).filter(DBTemplate.id == idx)
         with Session.begin() as db_session:
             result = db_session.execute(query)
-            return result.scalars().first()
+            result = result.scalars().first()
+            db_session.expunge_all()
+            return result
 
 
 class ListDBTemplateRepository(ListTemplateRepositoryInterface):
@@ -31,7 +33,9 @@ class ListDBTemplateRepository(ListTemplateRepositoryInterface):
         with Session.begin() as db_session:
             query = select(DBTemplate)
             result = db_session.execute(query)
-            return result.scalars().all()
+            results = result.scalars().all()
+            db_session.expunge_all()
+            return results
 
 
 class PersistDBTemplateRepository(PersistTemplateRepositoryInterface):
