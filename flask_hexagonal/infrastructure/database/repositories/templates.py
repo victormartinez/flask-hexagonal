@@ -46,7 +46,10 @@ class PersistDBTemplateRepository(PersistTemplateRepositoryInterface):
         with Session.begin() as db_session:
             template = DBTemplate(name=name, tokens=tokens, external_id=external_id)
             db_session.add(template)
+
+            db_session.expunge_all()
             db_session.commit()
+
             return template
 
 class DeleteDBTemplateRepository(DeleteTemplateRepositoryInterface):
@@ -56,4 +59,6 @@ class DeleteDBTemplateRepository(DeleteTemplateRepositoryInterface):
             query = delete(DBTemplate).where(DBTemplate.id == idx)
             result = db_session.execute(query)
             db_session.commit()
+
+            db_session.expunge_all()
             return result.rowcount

@@ -53,11 +53,8 @@ class BaseResource(Resource):
         return make_response(jsonify(response.dict()), response.status)
 
 
-class ListTemplatesResource(BaseResource):
+class ListCreateTemplatesResource(BaseResource):
     GET_CONTROLLER = ListTemplatesController
-
-
-class CreateTemplateResource(BaseResource):
     POST_CONTROLLER = CreateTemplateController
 
 
