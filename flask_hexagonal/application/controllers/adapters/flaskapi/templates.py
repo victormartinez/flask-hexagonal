@@ -5,6 +5,7 @@ from flask import make_response, request, jsonify
 
 from flask_hexagonal.application.controllers.interfaces import Request
 from flask_hexagonal.application.controllers.templates import (
+    ActionController,
     ListTemplatesController,
     CreateTemplateController,
     RetrieveTemplateController,
@@ -23,26 +24,39 @@ def to_request():
         view_args=request.view_args
     )
 
+class BaseResource(Resource):
 
-class ListTemplatesResource(Resource):
+    CONTROLLER: ActionController = None
 
     def get(self, *args, **kwargs):
-        req = to_request()
-        response = ListTemplatesController().run(req)
+        if not self.CONTROLLER:
+            raise NotImplementedError('Resource.get not implemented.')
+        parsed_request = to_request()
+        response = self.CONTROLLER().run(parsed_request)
         return make_response(jsonify(response.dict()), response.status)
-
-
-class CreateTemplateResource(Resource):
 
     def post(self, *args, **kwargs):
-        req = to_request()
-        response = CreateTemplateController().run(req)
+        if not self.CONTROLLER:
+            raise NotImplementedError('Resource.post not implemented.')
+        parsed_request = to_request()
+        response = self.CONTROLLER().run(parsed_request)
+        return make_response(jsonify(response.dict()), response.status)
+
+    def delete(self, *args, **kwargs):
+        if not self.CONTROLLER:
+            raise NotImplementedError('Resource.delete not implemented.')
+        parsed_request = to_request()
+        response = self.CONTROLLER().run(parsed_request)
         return make_response(jsonify(response.dict()), response.status)
 
 
-class RetrieveTemplateResource(Resource):
+class ListTemplatesResource(BaseResource):
+    CONTROLLER = ListTemplatesController
 
-    def get(self, *args, **kwargs):
-        req = to_request()
-        response = RetrieveTemplateController().run(req)
-        return make_response(jsonify(response.dict()), response.status)
+
+class CreateTemplateResource(BaseResource):
+    CONTROLLER = CreateTemplateController
+
+
+class RetrieveTemplateResource(BaseResource):
+    CONTROLLER = RetrieveTemplateController
