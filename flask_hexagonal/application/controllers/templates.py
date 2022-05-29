@@ -10,7 +10,7 @@ from flask_hexagonal.infrastructure.database.repositories import (
     ListDBTemplateRepository,
     PersistDBTemplateRepository,
 )
-from flask_hexagonal.infrastructure.database.repositories.templates import RetrieveDBTemplateRepository
+from flask_hexagonal.infrastructure.database.repositories.templates import DeleteDBTemplateRepository, RetrieveDBTemplateRepository
 from .interfaces import (
     Request, 
     Response, 
@@ -85,5 +85,24 @@ class CreateTemplateController(ActionController):
                     message="The payload has one or more invalid fields.",
                     type="ValidationError",
                     details=details
+                )
+            )
+
+
+class DeleteTemplateController(ActionController):
+    
+    def run(self, request: Request) -> Response:
+        try:
+            template_id = request.view_args.get("id")
+            result = service.delete_template(template_id, DeleteDBTemplateRepository())
+            return Response(
+                status=HTTPStatus.NO_CONTENT if result else HTTPStatus.NOT_FOUND
+            )
+        except ValueError:
+            return Response(
+                status=HTTPStatus.BAD_REQUEST,
+                error=ErrorResponseDetails(
+                    message="The provided id is invalid.",
+                    type="ValueError",
                 )
             )

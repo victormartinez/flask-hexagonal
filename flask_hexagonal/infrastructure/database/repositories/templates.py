@@ -1,6 +1,7 @@
-from typing import List, Type
+from typing import List, Optional
 from uuid import UUID
 
+from sqlalchemy import delete
 from sqlalchemy.future import select
 
 from flask_hexagonal.infrastructure.database.models import DBTemplate
@@ -9,6 +10,7 @@ from flask_hexagonal.domain.templates import (
     ListTemplateRepositoryInterface,
     RetrieveTemplateRepositoryInterface,
     PersistTemplateRepositoryInterface,
+    DeleteTemplateRepositoryInterface,
     TemplateInterface,
 )
 
@@ -46,3 +48,12 @@ class PersistDBTemplateRepository(PersistTemplateRepositoryInterface):
             db_session.add(template)
             db_session.commit()
             return template
+
+class DeleteDBTemplateRepository(DeleteTemplateRepositoryInterface):
+
+    def delete(self, idx: UUID) -> Optional[int]:
+        with Session.begin() as db_session:
+            query = delete(DBTemplate).where(DBTemplate.id == idx)
+            result = db_session.execute(query)
+            db_session.commit()
+            return result.rowcount

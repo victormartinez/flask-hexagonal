@@ -9,6 +9,7 @@ from .interfaces import (
     ListTemplateRepositoryInterface,
     RetrieveTemplateRepositoryInterface,
     PersistTemplateRepositoryInterface,
+    DeleteTemplateRepositoryInterface,
     TemplateInterface,
 )
 
@@ -23,4 +24,5 @@ __all__ = (
     "ListTemplateRepositoryInterface",
     "RetrieveTemplateRepositoryInterface",
     "PersistTemplateRepositoryInterface",
+    "DeleteTemplateRepositoryInterface",
 )

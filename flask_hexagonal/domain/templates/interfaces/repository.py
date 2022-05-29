@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from typing import List
+from typing import List, Optional
 
 from .entities import TemplateInterface, ExternalTemplateInterface
 
@@ -34,5 +34,5 @@ class PersistTemplateRepositoryInterface:
 
 class DeleteTemplateRepositoryInterface:
 
-    def delete(self, idx: UUID) -> int:
+    def delete(self, idx: UUID) -> Optional[int]:
         raise NotImplementedError("'DeleteTemplateRepositoryInterface.delete' must be implemented.")

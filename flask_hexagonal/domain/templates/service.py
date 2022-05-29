@@ -1,6 +1,8 @@
 from typing import List
 from uuid import UUID
 
+from flask_hexagonal.domain.templates.interfaces.repository import DeleteTemplateRepositoryInterface
+
 from .exceptions import (
     TemplateImportError,
     TokenValidationError,
@@ -22,6 +24,11 @@ def list_templates(repository: ListTemplateRepositoryInterface) -> List[Template
 
 def get_template(id: UUID, repository: RetrieveTemplateRepositoryInterface) -> TemplateInterface:
     return repository.get(id)
+
+
+def delete_template(id: UUID, repository: DeleteTemplateRepositoryInterface) -> int:
+    # TODO: handle error
+    return repository.delete(id)
 
 
 def create_template(

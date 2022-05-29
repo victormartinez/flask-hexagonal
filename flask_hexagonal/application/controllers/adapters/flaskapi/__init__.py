@@ -4,7 +4,7 @@ from flask_restful import Api
 from .templates import (
     ListTemplatesResource,
     CreateTemplateResource,
-    RetrieveTemplateResource,
+    RetrieveDeleteTemplateResource,
 )
 
 
@@ -22,5 +22,5 @@ def _configure_api(app: Flask) -> None:
 
     api.add_resource(ListTemplatesResource, "/")
     api.add_resource(CreateTemplateResource, "/")
-    api.add_resource(RetrieveTemplateResource, "/<id>")
+    api.add_resource(RetrieveDeleteTemplateResource, "/<id>")
     app.register_blueprint(bp)

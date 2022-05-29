@@ -9,6 +9,7 @@ from flask_hexagonal.application.controllers.templates import (
     ListTemplatesController,
     CreateTemplateController,
     RetrieveTemplateController,
+    DeleteTemplateController,
 )
 
 def to_request():
@@ -58,5 +59,12 @@ class CreateTemplateResource(BaseResource):
     CONTROLLER = CreateTemplateController
 
 
-class RetrieveTemplateResource(BaseResource):
-    CONTROLLER = RetrieveTemplateController
+class RetrieveDeleteTemplateResource(BaseResource):
+
+    def get(self, *args, **kwargs):
+        self.CONTROLLER = RetrieveTemplateController
+        return super().get(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        self.CONTROLLER = DeleteTemplateController
+        return super().get(*args, **kwargs)
