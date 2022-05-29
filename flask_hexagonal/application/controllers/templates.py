@@ -1,5 +1,6 @@
 from http import HTTPStatus
 from typing import List
+from uuid import UUID
 
 from pydantic import BaseModel, Extra
 from pydantic.error_wrappers import ValidationError
@@ -9,6 +10,7 @@ from flask_hexagonal.infrastructure.database.repositories import (
     ListDBTemplateRepository,
     PersistDBTemplateRepository,
 )
+from flask_hexagonal.infrastructure.database.repositories.templates import RetrieveDBTemplateRepository
 from .interfaces import (
     Request, 
     Response, 
@@ -29,18 +31,32 @@ class TemplateIn(BaseModel):
 class ListTemplatesController(ActionController):
 
     def run(self, _: Request) -> Response:
-        results = service.list_templates(ListDBTemplateRepository())
-        return Response(
-            status=HTTPStatus.OK,
-            data=[r.dict() for r in results],
-        )
+        data = {
+            "templates": [
+                t.dict() for t in service.list_templates(ListDBTemplateRepository())
+            ]
+        }
+        return Response(status=HTTPStatus.OK, data=data)
 
 
 class RetrieveTemplateController(ActionController):
 
     def run(self, request: Request) -> Response:
-        pass
-        print("A")
+        try:
+            template_id = request.view_args.get("id")
+            template = service.get_template(UUID(template_id), RetrieveDBTemplateRepository())
+            return Response(
+                status=HTTPStatus.OK if template else HTTPStatus.NOT_FOUND,
+                data=template.dict()
+            )
+        except ValueError:
+            return Response(
+                status=HTTPStatus.BAD_REQUEST,
+                error=ErrorResponseDetails(
+                    message="The provided id is invalid.",
+                    type="ValueError",
+                )
+            )
 
 
 class CreateTemplateController(ActionController):

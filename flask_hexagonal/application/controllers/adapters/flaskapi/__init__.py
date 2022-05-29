@@ -22,5 +22,5 @@ def _configure_api(app: Flask) -> None:
 
     api.add_resource(ListTemplatesResource, "/")
     api.add_resource(CreateTemplateResource, "/")
-    api.add_resource(RetrieveTemplateResource, "/<idx>")
+    api.add_resource(RetrieveTemplateResource, "/<id>")
     app.register_blueprint(bp)

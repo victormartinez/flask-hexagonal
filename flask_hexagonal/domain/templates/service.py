@@ -1,4 +1,5 @@
 from typing import List
+from uuid import UUID
 
 from .exceptions import (
     TemplateImportError,
@@ -19,7 +20,7 @@ def list_templates(repository: ListTemplateRepositoryInterface) -> List[Template
     return repository.list()
 
 
-def get_template(id: str, repository: RetrieveTemplateRepositoryInterface) -> TemplateInterface:
+def get_template(id: UUID, repository: RetrieveTemplateRepositoryInterface) -> TemplateInterface:
     return repository.get(id)
 
 
