@@ -4,7 +4,8 @@ from .repository import (
     RetrieveExternalTemplateRepositoryInterface,
     ListTemplateRepositoryInterface,
     RetrieveTemplateRepositoryInterface,
-    PersistTemplateRepositoryInterface
+    PersistTemplateRepositoryInterface,
+    DeleteTemplateRepositoryInterface,
 )
 
 
@@ -15,5 +16,6 @@ __all__ = (
     "RetrieveTemplateRepositoryInterface",
     "PersistTemplateRepositoryInterface",
     "ExternalTemplateInterface",
+    "DeleteTemplateRepositoryInterface",
     "TemplateInterface",
 )
