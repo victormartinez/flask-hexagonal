@@ -27,44 +27,41 @@ def to_request():
 
 class BaseResource(Resource):
 
-    CONTROLLER: ActionController = None
+    GET_CONTROLLER: ActionController = None
+    POST_CONTROLLER: ActionController = None
+    DELETE_CONTROLLER: ActionController = None
 
     def get(self, *args, **kwargs):
-        if not self.CONTROLLER:
+        if not self.GET_CONTROLLER:
             raise NotImplementedError('Resource.get not implemented.')
         parsed_request = to_request()
-        response = self.CONTROLLER().run(parsed_request)
+        response = self.GET_CONTROLLER().run(parsed_request)
         return make_response(jsonify(response.dict()), response.status)
 
     def post(self, *args, **kwargs):
-        if not self.CONTROLLER:
+        if not self.POST_CONTROLLER:
             raise NotImplementedError('Resource.post not implemented.')
         parsed_request = to_request()
-        response = self.CONTROLLER().run(parsed_request)
+        response = self.POST_CONTROLLER().run(parsed_request)
         return make_response(jsonify(response.dict()), response.status)
 
     def delete(self, *args, **kwargs):
-        if not self.CONTROLLER:
+        if not self.DELETE_CONTROLLER:
             raise NotImplementedError('Resource.delete not implemented.')
         parsed_request = to_request()
-        response = self.CONTROLLER().run(parsed_request)
+        response = self.DELETE_CONTROLLER().run(parsed_request)
         return make_response(jsonify(response.dict()), response.status)
 
 
 class ListTemplatesResource(BaseResource):
-    CONTROLLER = ListTemplatesController
+    GET_CONTROLLER = ListTemplatesController
 
 
 class CreateTemplateResource(BaseResource):
-    CONTROLLER = CreateTemplateController
+    POST_CONTROLLER = CreateTemplateController
 
 
 class RetrieveDeleteTemplateResource(BaseResource):
 
-    def get(self, *args, **kwargs):
-        self.CONTROLLER = RetrieveTemplateController
-        return super().get(*args, **kwargs)
-
-    def delete(self, *args, **kwargs):
-        self.CONTROLLER = DeleteTemplateController
-        return super().get(*args, **kwargs)
+    GET_CONTROLLER = RetrieveTemplateController
+    DELETE_CONTROLLER = DeleteTemplateController
