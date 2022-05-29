@@ -2,19 +2,7 @@ from uuid import UUID
 
 from typing import List, Optional
 
-from .entities import TemplateInterface, ExternalTemplateInterface
-
-
-class RetrieveExternalTemplateRepositoryInterface:
-
-    def get(self, idx: UUID) -> ExternalTemplateInterface:
-        raise NotImplementedError("'RetrieveExternalTemplateRepositoryInterface.get_template' must be implemented.")
-
-
-class ListExternalTemplateTokensRepositoryInterface:
-
-    def list_tokens(self, template_idx: str) -> List[str]:
-        raise NotImplementedError("'ListExternalTemplateTokensRepositoryInterface.list_tokens' must be implemented.")
+from .entities import TemplateInterface
 
 
 class RetrieveTemplateRepositoryInterface:

@@ -1,7 +1,5 @@
-from .entities import ExternalTemplateInterface, TemplateInterface
+from .entities import TemplateInterface
 from .repository import (
-    ListExternalTemplateTokensRepositoryInterface,
-    RetrieveExternalTemplateRepositoryInterface,
     ListTemplateRepositoryInterface,
     RetrieveTemplateRepositoryInterface,
     PersistTemplateRepositoryInterface,
@@ -10,12 +8,9 @@ from .repository import (
 
 
 __all__ = (
-    "ListExternalTemplateTokensRepositoryInterface",
-    "RetrieveExternalTemplateRepositoryInterface",
     "ListTemplateRepositoryInterface",
     "RetrieveTemplateRepositoryInterface",
     "PersistTemplateRepositoryInterface",
-    "ExternalTemplateInterface",
     "DeleteTemplateRepositoryInterface",
     "TemplateInterface",
 )

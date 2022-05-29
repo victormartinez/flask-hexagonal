@@ -27,18 +27,3 @@ class TemplateInterface:
 
     def dict(self) -> Dict[Any, Any]:
         raise NotImplementedError("Missing method 'dict()'.")
-
-
-class ExternalTemplateInterface:
-
-    @property
-    def id(self) -> str:
-        raise NotImplementedError("Missing property 'id'.")
-
-    @property
-    def name(self) -> str:
-        raise NotImplementedError("Missing property 'name'.")
-
-    @property
-    def tokens(self) -> List[str]:
-        raise NotImplementedError("Missing property 'tokens'.")
