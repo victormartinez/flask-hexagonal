@@ -22,7 +22,7 @@ class Request(BaseModel):
     path: str
     query_string: bytes
     method: str
-    data: bytes
+    data: Optional[bytes]
     json_payload: Optional[Dict[Any, Any]] = {}
     headers: Optional[Dict[str, str]] = {}
     view_args: Dict[str, str] = {}
