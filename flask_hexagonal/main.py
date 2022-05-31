@@ -4,5 +4,5 @@ from flask_hexagonal.application.controllers.adapters import (
 )
 
 
-#app = falconapi.create_app()
+# app = falconapi.create_app()
 app = flaskapi.create_app()

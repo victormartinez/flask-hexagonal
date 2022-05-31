@@ -13,3 +13,9 @@ def build_database_uri() -> str:
     # we can't return SQLALCHEMY_DATABASE_URI directly.
     # flask_hexagonal/infrastructure/alembic/env.py:28
     return f"postgresql+psycopg2://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+
+
+REDIS_DB = config("REDIS_DB", "")
+REDIS_PASSWORD = config("REDIS_PASSWORD", "")
+REDIS_HOST = config("REDIS_HOST", "")
+REDIS_PORT = config("REDIS_PORT", default="6379")
