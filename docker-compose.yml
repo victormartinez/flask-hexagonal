@@ -8,3 +8,8 @@ services:
     environment:
       POSTGRES_DB: templates
       POSTGRES_PASSWORD: postgres
+
+  templates_memory:
+    image: redis:6.2.3
+    ports:
+      - "6379:6379"
