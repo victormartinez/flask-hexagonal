@@ -6,17 +6,11 @@ from pydantic import BaseModel, Extra
 from pydantic.error_wrappers import ValidationError
 
 from flask_hexagonal.domain.templates import service
-from flask_hexagonal.infrastructure.memory.repositories import (
-    RetrieveMemoryTemplateRepository,
-    ListMemoryTemplateRepository,
-    PersistMemoryTemplateRepository,
-    DeleteMemoryTemplateRepository,
-)
-from flask_hexagonal.infrastructure.database.repositories import (
-    ListDBTemplateRepository,
-    PersistDBTemplateRepository,
-    DeleteDBTemplateRepository,
-    RetrieveDBTemplateRepository,
+from flask_hexagonal.domain.templates.interfaces.repository import (
+    ListTemplateRepositoryInterface,
+    RetrieveTemplateRepositoryInterface,
+    PersistTemplateRepositoryInterface,
+    DeleteTemplateRepositoryInterface,
 )
 from .interfaces import (
     Request, 
@@ -37,10 +31,13 @@ class TemplateIn(BaseModel):
 
 class ListTemplatesController(ActionController):
 
+    def __init__(self, repository: ListTemplateRepositoryInterface):
+        self.repository = repository
+
     def run(self, _: Request) -> Response:
         data = {
             "templates": [
-                t.dict() for t in service.list_templates(ListMemoryTemplateRepository())
+                t.dict() for t in service.list_templates(self.repository)
             ]
         }
         return Response(status=HTTPStatus.OK, data=data)
@@ -48,10 +45,13 @@ class ListTemplatesController(ActionController):
 
 class RetrieveTemplateController(ActionController):
 
+    def __init__(self, repository: RetrieveTemplateRepositoryInterface):
+        self.repository = repository
+
     def run(self, request: Request) -> Response:
         try:
             template_id = request.view_args.get("id")
-            template = service.get_template(UUID(template_id), RetrieveMemoryTemplateRepository())
+            template = service.get_template(UUID(template_id), self.repository)
             return Response(
                 status=HTTPStatus.OK if template else HTTPStatus.NOT_FOUND,
                 data=template.dict()
@@ -67,6 +67,9 @@ class RetrieveTemplateController(ActionController):
 
 
 class CreateTemplateController(ActionController):
+
+    def __init__(self, repository: PersistTemplateRepositoryInterface):
+        self.repository = repository
     
     def run(self, request: Request) -> Response:
         try:
@@ -75,7 +78,7 @@ class CreateTemplateController(ActionController):
                 template_in.name,
                 template_in.tokens,
                 template_in.external_id,
-                PersistMemoryTemplateRepository(),
+                self.repository,
             )
             return Response(
                 status=HTTPStatus.CREATED,
@@ -97,11 +100,14 @@ class CreateTemplateController(ActionController):
 
 
 class DeleteTemplateController(ActionController):
+
+    def __init__(self, repository: DeleteTemplateRepositoryInterface):
+        self.repository = repository
     
     def run(self, request: Request) -> Response:
         try:
             template_id = request.view_args.get("id")
-            result = service.delete_template(template_id, DeleteMemoryTemplateRepository())
+            result = service.delete_template(template_id, self.repository)
             return Response(
                 status=HTTPStatus.NO_CONTENT if result else HTTPStatus.NOT_FOUND
             )

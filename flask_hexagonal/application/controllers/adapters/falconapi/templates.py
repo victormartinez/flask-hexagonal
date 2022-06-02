@@ -1,5 +1,4 @@
 import json
-from http import HTTPStatus
 from typing import Any, Dict
 
 import falcon
@@ -12,6 +11,13 @@ from flask_hexagonal.application.controllers.templates import (
     RetrieveTemplateController,
     DeleteTemplateController,
 )
+from flask_hexagonal.infrastructure.database.repositories import (
+    ListDBTemplateRepository,
+    PersistDBTemplateRepository,
+    DeleteDBTemplateRepository,
+    RetrieveDBTemplateRepository,
+)
+
 
 def to_request(request: falcon.Request, view_args: Dict[str, Any]):
     return Request(
@@ -35,7 +41,7 @@ class BaseResource:
         if not self.GET_CONTROLLER:
             raise NotImplementedError('Resource.get not implemented.')
         parsed_request = to_request(req, view_args=kwargs)
-        response = self.GET_CONTROLLER().run(parsed_request)
+        response = self.GET_CONTROLLER.run(parsed_request)
 
         resp.text = json.dumps(response.dict())
         resp.status = response.status
@@ -44,7 +50,7 @@ class BaseResource:
         if not self.POST_CONTROLLER:
             raise NotImplementedError('Resource.post not implemented.')
         parsed_request = to_request(req, view_args=kwargs)
-        response = self.POST_CONTROLLER().run(parsed_request)
+        response = self.POST_CONTROLLER.run(parsed_request)
 
         resp.text = json.dumps(response.dict())
         resp.status = response.status
@@ -53,16 +59,24 @@ class BaseResource:
         if not self.DELETE_CONTROLLER:
             raise NotImplementedError('Resource.delete not implemented.')
         parsed_request = to_request(req, view_args=kwargs)
-        response = self.DELETE_CONTROLLER().run(parsed_request)
+        response = self.DELETE_CONTROLLER.run(parsed_request)
 
         resp.text = json.dumps(response.dict())
         resp.status = response.status
 
 
 class ListCreateTemplatesResource(BaseResource):
-    GET_CONTROLLER = ListTemplatesController
-    POST_CONTROLLER = CreateTemplateController
+    GET_CONTROLLER = ListTemplatesController(
+        ListDBTemplateRepository()
+    )
+    POST_CONTROLLER = CreateTemplateController(
+        PersistDBTemplateRepository()
+    )
 
 class RetrieveDeleteTemplateResource(BaseResource):
-    GET_CONTROLLER = RetrieveTemplateController
-    DELETE_CONTROLLER = DeleteTemplateController
+    GET_CONTROLLER = RetrieveTemplateController(
+        RetrieveDBTemplateRepository()
+    )
+    DELETE_CONTROLLER = DeleteTemplateController(
+        DeleteDBTemplateRepository()
+    )
