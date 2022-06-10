@@ -21,6 +21,8 @@ class RetrieveMemoryTemplateRepository(RetrieveTemplateRepositoryInterface):
         # TODO: handle errors
         # TODO: separate DB conn from Data Access
         value = redis_client.get(str(idx))
+        if not value:
+            raise ValueError("Template Not Found")
         data = json.loads(value)
         return MemoryTemplate(**data)
 

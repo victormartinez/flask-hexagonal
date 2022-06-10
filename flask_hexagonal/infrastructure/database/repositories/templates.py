@@ -24,6 +24,8 @@ class RetrieveDBTemplateRepository(RetrieveTemplateRepositoryInterface):
         with Session.begin() as db_session:
             result = db_session.execute(query)
             result = result.scalars().first()
+            if not result:
+                raise ValueError("Not Found!")
             db_session.expunge_all()
             return result
 
