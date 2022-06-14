@@ -1,22 +1,21 @@
 import json
+import uuid
+from datetime import datetime
 from typing import List, Optional
 from uuid import UUID
-from datetime import datetime
-import uuid
 
-from flask_hexagonal.infrastructure.memory.client import redis_client
 from flask_hexagonal.domain.templates import (
-    ListTemplateRepositoryInterface,
-    RetrieveTemplateRepositoryInterface,
-    PersistTemplateRepositoryInterface,
     DeleteTemplateRepositoryInterface,
+    ListTemplateRepositoryInterface,
+    PersistTemplateRepositoryInterface,
+    RetrieveTemplateRepositoryInterface,
     TemplateInterface,
 )
+from flask_hexagonal.infrastructure.memory.client import redis_client
 from flask_hexagonal.infrastructure.memory.models.templates import MemoryTemplate
 
 
 class RetrieveMemoryTemplateRepository(RetrieveTemplateRepositoryInterface):
-
     def get(self, idx: UUID) -> TemplateInterface:
         # TODO: handle errors
         # TODO: separate DB conn from Data Access
@@ -28,7 +27,6 @@ class RetrieveMemoryTemplateRepository(RetrieveTemplateRepositoryInterface):
 
 
 class ListMemoryTemplateRepository(ListTemplateRepositoryInterface):
-
     def list(self) -> List[TemplateInterface]:
         # TODO: handle errors
         result = []
@@ -43,14 +41,15 @@ class ListMemoryTemplateRepository(ListTemplateRepositoryInterface):
 
 
 class PersistMemoryTemplateRepository(PersistTemplateRepositoryInterface):
-
-    def insert(self, name: str, tokens: List[str], external_id: str) -> TemplateInterface:
+    def insert(
+        self, name: str, tokens: List[str], external_id: str
+    ) -> TemplateInterface:
         data = {
             "id": uuid.uuid4(),
             "name": name,
             "tokens": tokens,
-            "external_id": external_id, 
-            "created_at": datetime.utcnow()
+            "external_id": external_id,
+            "created_at": datetime.utcnow(),
         }
         template = MemoryTemplate(**data)
 
@@ -61,7 +60,6 @@ class PersistMemoryTemplateRepository(PersistTemplateRepositoryInterface):
 
 
 class DeleteMemoryTemplateRepository(DeleteTemplateRepositoryInterface):
-
     def delete(self, idx: UUID) -> Optional[int]:
         value = redis_client.getdel(str(idx))
         return 1 if value else 0

@@ -1,10 +1,9 @@
-from uuid import UUID
 from datetime import datetime
-from typing import Any, List, Dict
+from typing import Any, Dict, List
+from uuid import UUID
 
 
 class TemplateInterface:
-
     @property
     def id(self) -> UUID:
         raise NotImplementedError("Missing property 'id'.")

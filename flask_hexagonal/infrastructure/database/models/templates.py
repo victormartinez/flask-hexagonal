@@ -11,10 +11,7 @@ from flask_hexagonal.infrastructure.database.base import Base
 class DBTemplate(Base):
     __tablename__ = "templates"
     id = sa.Column(
-        postgresql.UUID(as_uuid=True),
-        primary_key=True,
-        index=True,
-        default=uuid.uuid4
+        postgresql.UUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid4
     )
     name = sa.Column(sa.String, nullable=False)
     tokens = sa.Column(sa.JSON, nullable=False)

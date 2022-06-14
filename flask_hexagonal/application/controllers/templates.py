@@ -7,17 +7,13 @@ from pydantic.error_wrappers import ValidationError
 
 from flask_hexagonal.domain.templates import service
 from flask_hexagonal.domain.templates.interfaces.repository import (
-    ListTemplateRepositoryInterface,
-    RetrieveTemplateRepositoryInterface,
-    PersistTemplateRepositoryInterface,
     DeleteTemplateRepositoryInterface,
+    ListTemplateRepositoryInterface,
+    PersistTemplateRepositoryInterface,
+    RetrieveTemplateRepositoryInterface,
 )
-from .interfaces import (
-    Request, 
-    Response, 
-    ErrorResponseDetails,
-    ActionController,
-)
+
+from .interfaces import ActionController, ErrorResponseDetails, Request, Response
 
 
 class TemplateIn(BaseModel):
@@ -30,21 +26,17 @@ class TemplateIn(BaseModel):
 
 
 class ListTemplatesController(ActionController):
-
     def __init__(self, repository: ListTemplateRepositoryInterface):
         self.repository = repository
 
     def run(self, _: Request) -> Response:
         data = {
-            "templates": [
-                t.dict() for t in service.list_templates(self.repository)
-            ]
+            "templates": [t.dict() for t in service.list_templates(self.repository)]
         }
         return Response(status=HTTPStatus.OK, data=data)
 
 
 class RetrieveTemplateController(ActionController):
-
     def __init__(self, repository: RetrieveTemplateRepositoryInterface):
         self.repository = repository
 
@@ -54,7 +46,7 @@ class RetrieveTemplateController(ActionController):
             template = service.get_template(UUID(template_id), self.repository)
             return Response(
                 status=HTTPStatus.OK if template else HTTPStatus.NOT_FOUND,
-                data=template.dict()
+                data=template.dict(),
             )
         except ValueError:
             return Response(
@@ -62,15 +54,14 @@ class RetrieveTemplateController(ActionController):
                 error=ErrorResponseDetails(
                     message="The provided id is invalid.",
                     type="ValueError",
-                )
+                ),
             )
 
 
 class CreateTemplateController(ActionController):
-
     def __init__(self, repository: PersistTemplateRepositoryInterface):
         self.repository = repository
-    
+
     def run(self, request: Request) -> Response:
         try:
             template_in = TemplateIn(**request.json_payload)
@@ -85,25 +76,21 @@ class CreateTemplateController(ActionController):
                 data=result.dict(),
             )
         except ValidationError as exc:
-            details = {
-                ".".join(err["loc"]): err["msg"]
-                for err in exc.errors()
-            }
+            details = {".".join(err["loc"]): err["msg"] for err in exc.errors()}
             return Response(
                 status=HTTPStatus.BAD_REQUEST,
                 error=ErrorResponseDetails(
                     message="The payload has one or more invalid fields.",
                     type="ValidationError",
-                    details=details
-                )
+                    details=details,
+                ),
             )
 
 
 class DeleteTemplateController(ActionController):
-
     def __init__(self, repository: DeleteTemplateRepositoryInterface):
         self.repository = repository
-    
+
     def run(self, request: Request) -> Response:
         try:
             template_id = request.view_args.get("id")
@@ -117,5 +104,5 @@ class DeleteTemplateController(ActionController):
                 error=ErrorResponseDetails(
                     message="The provided id is invalid.",
                     type="ValueError",
-                )
+                ),
             )

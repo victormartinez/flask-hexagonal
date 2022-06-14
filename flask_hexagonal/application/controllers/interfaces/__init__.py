@@ -1,2 +1,2 @@
 from .controller import ActionController
-from .entities import Response, Request, ErrorResponseDetails
+from .entities import ErrorResponseDetails, Request, Response

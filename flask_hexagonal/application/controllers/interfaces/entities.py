@@ -1,6 +1,7 @@
 from http import HTTPStatus
+from typing import Any, Dict, Optional
+
 from pydantic import BaseModel
-from typing import Optional, Dict, Any
 
 
 class ErrorResponseDetails(BaseModel):

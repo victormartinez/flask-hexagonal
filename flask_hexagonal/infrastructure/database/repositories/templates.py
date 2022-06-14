@@ -4,19 +4,18 @@ from uuid import UUID
 from sqlalchemy import delete
 from sqlalchemy.future import select
 
-from flask_hexagonal.infrastructure.database.models import DBTemplate
-from flask_hexagonal.infrastructure.database.session import Session
 from flask_hexagonal.domain.templates import (
-    ListTemplateRepositoryInterface,
-    RetrieveTemplateRepositoryInterface,
-    PersistTemplateRepositoryInterface,
     DeleteTemplateRepositoryInterface,
+    ListTemplateRepositoryInterface,
+    PersistTemplateRepositoryInterface,
+    RetrieveTemplateRepositoryInterface,
     TemplateInterface,
 )
+from flask_hexagonal.infrastructure.database.models import DBTemplate
+from flask_hexagonal.infrastructure.database.session import Session
 
 
 class RetrieveDBTemplateRepository(RetrieveTemplateRepositoryInterface):
-
     def get(self, idx: UUID) -> TemplateInterface:
         # TODO: handle errors
         # TODO: separate DB conn from Data Access
@@ -31,7 +30,6 @@ class RetrieveDBTemplateRepository(RetrieveTemplateRepositoryInterface):
 
 
 class ListDBTemplateRepository(ListTemplateRepositoryInterface):
-
     def list(self) -> List[TemplateInterface]:
         # TODO: handle errors
         with Session.begin() as db_session:
@@ -43,8 +41,9 @@ class ListDBTemplateRepository(ListTemplateRepositoryInterface):
 
 
 class PersistDBTemplateRepository(PersistTemplateRepositoryInterface):
-
-    def insert(self, name: str, tokens: List[str], external_id: str) -> TemplateInterface:
+    def insert(
+        self, name: str, tokens: List[str], external_id: str
+    ) -> TemplateInterface:
         with Session.begin() as db_session:
             template = DBTemplate(name=name, tokens=tokens, external_id=external_id)
             db_session.add(template)
@@ -54,8 +53,8 @@ class PersistDBTemplateRepository(PersistTemplateRepositoryInterface):
 
             return template
 
-class DeleteDBTemplateRepository(DeleteTemplateRepositoryInterface):
 
+class DeleteDBTemplateRepository(DeleteTemplateRepositoryInterface):
     def delete(self, idx: UUID) -> Optional[int]:
         with Session.begin() as db_session:
             query = delete(DBTemplate).where(DBTemplate.id == idx)

@@ -1,11 +1,7 @@
 from flask import Blueprint, Flask
 from flask_restful import Api
 
-from .templates import (
-    ListCreateTemplatesResource,
-    RetrieveDeleteTemplateResource,
-)
-
+from .templates import ListCreateTemplatesResource, RetrieveDeleteTemplateResource
 
 
 def create_app(*args, **config):

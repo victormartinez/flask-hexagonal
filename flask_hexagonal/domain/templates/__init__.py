@@ -1,11 +1,10 @@
 from .interfaces import (
-    ListTemplateRepositoryInterface,
-    RetrieveTemplateRepositoryInterface,
-    PersistTemplateRepositoryInterface,
     DeleteTemplateRepositoryInterface,
+    ListTemplateRepositoryInterface,
+    PersistTemplateRepositoryInterface,
+    RetrieveTemplateRepositoryInterface,
     TemplateInterface,
 )
-
 
 __all__ = (
     "TemplateInterface",
