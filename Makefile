@@ -29,7 +29,7 @@ format:
 	black -l 88 -t py310 --skip-string-normalization --check $(PROJECT_NAME) $(TEST_FOLDER)
 
 	######## CHECK TYPING ########
-	mypy --python-version 3.10 --ignore-missing-imports --disallow-untyped-defs --disallow-untyped-calls ginja/
+	mypy --python-version 3.10 --ignore-missing-imports --disallow-untyped-defs --disallow-untyped-calls $(PROJECT_NAME)/
 
 	# code style
 	flake8 $(PROJECT_NAME) $(TEST_FOLDER)
