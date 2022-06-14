@@ -27,6 +27,7 @@ isort = "^5.10.1"
 unify = "^0.5"
 mypy = "^0.961"
 pytest-env = "^0.6.2"
+types-redis = "^4.2.6"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
