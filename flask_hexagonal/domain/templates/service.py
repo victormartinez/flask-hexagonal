@@ -28,7 +28,6 @@ def get_template(
 def delete_template(
     id: UUID, repository: DeleteTemplateRepositoryInterface
 ) -> Optional[int]:
-    # TODO: handle error
     return repository.delete(id)
 
 
