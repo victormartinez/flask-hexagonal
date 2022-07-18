@@ -9,7 +9,18 @@ class ExceptionType(Enum):
 
 
 class BaseException(Exception):
-    ...
+
+    @property
+    def message(self) -> str:
+        raise NotImplementedError("'Exception.message' not implemented.")
+
+    @property
+    def type(self) -> ExceptionType:
+        raise NotImplementedError("'Exception.details' not implemented.")
+
+    @property
+    def details(self) -> Optional[Dict[str, str]]:
+        raise NotImplementedError("'Exception.details' not implemented.")
 
 
 class FlaskHexagonalException(BaseException):
@@ -17,9 +28,9 @@ class FlaskHexagonalException(BaseException):
         self,
         type: ExceptionType,
         message: str,
-        errors: Optional[List[Dict[str, str]]] = None,
+        details: Optional[Dict[str, str]] = None,
     ):
         self.type = type
         self.message = message
-        self.errors = errors or []
+        self.details = details or {}
         super().__init__(message)
