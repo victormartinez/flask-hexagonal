@@ -29,4 +29,5 @@ class DBTemplate(Base):
             "name": self.name,
             "tokens": self.tokens,
             "external_id": self.external_id,
+            "created_at": self.created_at,
         }
