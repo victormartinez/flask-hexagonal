@@ -1,3 +1,4 @@
+from datetime import datetime
 from http import HTTPStatus
 from typing import List
 from uuid import UUID
@@ -25,14 +26,23 @@ class TemplateIn(BaseModel):
         extra = Extra.forbid
 
 
+class TemplateOut(BaseModel):
+    id: UUID
+    name: str
+    external_id: str
+    tokens: List[str]
+    created_at: datetime
+
+
 class ListTemplatesController(ActionController):
     def __init__(self, repository: ListTemplateRepositoryInterface):
         self.repository = repository
 
     def run(self, _: Request) -> Response:
-        data = {
-            "templates": [t.dict() for t in service.list_templates(self.repository)]
-        }
+        data = [
+            TemplateOut(**t.dict())
+            for t in service.list_templates(self.repository)
+        ]
         return Response(status=HTTPStatus.OK, data=data)
 
 
@@ -46,7 +56,7 @@ class RetrieveTemplateController(ActionController):
             template = service.get_template(UUID(template_id), self.repository)
             return Response(
                 status=HTTPStatus.OK if template else HTTPStatus.NOT_FOUND,
-                data=template.dict(),
+                data=TemplateOut(**template.dict()),
             )
         except ValueError:
             return Response(
@@ -73,7 +83,7 @@ class CreateTemplateController(ActionController):
             )
             return Response(
                 status=HTTPStatus.CREATED,
-                data=result.dict(),
+                data=TemplateOut(**result.dict()),
             )
         except ValidationError as exc:
             details = {".".join(err["loc"]): err["msg"] for err in exc.errors()}

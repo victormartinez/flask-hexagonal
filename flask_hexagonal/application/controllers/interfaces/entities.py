@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Union, List
 
 from pydantic import BaseModel
 
@@ -15,7 +15,7 @@ class Response(BaseModel):
 
     status: HTTPStatus
     content_type: str = "application/json"
-    data: Optional[Dict[str, Any]] = {}
+    data: Optional[Union[BaseModel, List[BaseModel]]] = None
     error: Optional[ErrorResponseDetails] = None
 
 
