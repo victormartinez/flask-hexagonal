@@ -4,14 +4,19 @@ APPLICATION = flask_hexagonal.main:app
 default: help
 
 help:
-	@echo "All Commands:"
-	@echo "		clean - Remove temp files."
-	@echo "		down - Stop containers."
-	@echo "		db_upgrade - Apply database migrations."
-	@echo "		db_generate_revision - Generate database migrations."
-	@echo "		format - Format code and check style."
-	@echo "		up - Start containers."
-	@echo "		run - Run application in development mode."
+	@echo "	Commands:"
+	@echo "		Application:"
+	@echo "			up - Start containers."
+	@echo "			run - Run application in development mode."
+	@echo "			down - Stop containers."
+	@echo "		Database:"
+	@echo "			db_upgrade - Apply database migrations."
+	@echo "			db_generate_revision - Generate database migrations."
+	@echo "		Environment:"
+	@echo "			clean - Remove temp files."
+	@echo "			format - Format code and check style."
+	@echo "		Testing:"
+	@echo "			unit-test - Run unit tests."
 
 clean:
 	- @find . -name "*.pyc" -exec rm -rf {} \;
@@ -57,3 +62,5 @@ down:
 run: up db_upgrade
 	gunicorn $(APPLICATION) --workers 4 --bind 0.0.0.0:5000
 
+unit-test:
+	pytest tests/unit/ -vv
