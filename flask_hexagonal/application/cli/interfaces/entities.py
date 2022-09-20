@@ -1,4 +1,4 @@
-from typing import Dict, Optional, List, Union
+from typing import Dict, Optional
 
 from pydantic import BaseModel
 
@@ -12,5 +12,5 @@ class CmdError(BaseModel):
 
 class CmdResponse(BaseModel):
 
-    data: Optional[Union[BaseModel, List[BaseModel]]] = None
+    data: Optional[BaseModel] = None
     error: Optional[CmdError] = None

@@ -40,21 +40,21 @@ class BaseResource(Resource):
     POST_CONTROLLER: Optional[ActionController] = None
     DELETE_CONTROLLER: Optional[ActionController] = None
 
-    def get(self, *args, **kwargs) -> Response:
+    def get(self, *args, **kwargs) -> Response:  # type: ignore
         if not self.GET_CONTROLLER:
             raise NotImplementedError("Resource.get not implemented.")
         parsed_request = to_request()
         response = self.GET_CONTROLLER.run(parsed_request)
         return make_response(jsonify(response.dict()), response.status)
 
-    def post(self, *args, **kwargs) -> Response:
+    def post(self, *args, **kwargs) -> Response:  # type: ignore
         if not self.POST_CONTROLLER:
             raise NotImplementedError("Resource.post not implemented.")
         parsed_request = to_request()
         response = self.POST_CONTROLLER.run(parsed_request)
         return make_response(jsonify(response.dict()), response.status)
 
-    def delete(self, *args, **kwargs) -> Response:
+    def delete(self, *args, **kwargs) -> Response:  # type: ignore
         if not self.DELETE_CONTROLLER:
             raise NotImplementedError("Resource.delete not implemented.")
         parsed_request = to_request()

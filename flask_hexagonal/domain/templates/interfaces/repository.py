@@ -1,5 +1,4 @@
-from lib2to3.pytree import Base
-from typing import List, Optional
+from typing import Optional, Sequence
 from uuid import UUID
 
 from .entities import TemplateInterface
@@ -17,7 +16,7 @@ class RetrieveTemplateRepositoryInterface(BaseRepository):
 
 
 class ListTemplateRepositoryInterface(BaseRepository):
-    def list(self) -> List[TemplateInterface]:
+    def list(self) -> Sequence[TemplateInterface]:
         raise NotImplementedError(
             "'ListTemplateRepositoryInterface.list' must be implemented."
         )
@@ -25,7 +24,7 @@ class ListTemplateRepositoryInterface(BaseRepository):
 
 class PersistTemplateRepositoryInterface(BaseRepository):
     def insert(
-        self, name: str, tokens: List[str], external_id: str
+        self, name: str, tokens: Sequence[str], external_id: str
     ) -> TemplateInterface:
         raise NotImplementedError(
             "'PersistTemplateRepositoryInterface.insert' must be implemented."

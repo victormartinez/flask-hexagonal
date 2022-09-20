@@ -4,7 +4,7 @@ from flask_restful import Api
 from .templates import ListCreateTemplatesResource, RetrieveDeleteTemplateResource
 
 
-def create_app(*args, **config):
+def create_app() -> Flask:
     app = Flask(__name__)
 
     _configure_api(app)

@@ -1,9 +1,9 @@
-from typing import List, Optional
+from typing import List, Optional, Sequence
 from uuid import UUID
 
 from sqlalchemy import delete
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.future import select
-from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 
 from flask_hexagonal.domain.templates import (
     DeleteTemplateRepositoryInterface,
@@ -27,12 +27,14 @@ class RetrieveDBTemplateRepository(RetrieveTemplateRepositoryInterface):
                 if not result:
                     raise FlaskHexagonalException(
                         type=ExceptionType.OBJECT_NOT_FOUND,
-                        message=f"Template #{str(idx)} not found."
+                        message=f"Template #{str(idx)} not found.",
                     )
                 db_session.expunge_all()
                 return result
         except SQLAlchemyError as exc:
-            raise FlaskHexagonalException(type=ExceptionType.DATABASE_ERROR, message=str(exc))
+            raise FlaskHexagonalException(
+                type=ExceptionType.DATABASE_ERROR, message=str(exc)
+            )
 
 
 class ListDBTemplateRepository(ListTemplateRepositoryInterface):
@@ -45,12 +47,14 @@ class ListDBTemplateRepository(ListTemplateRepositoryInterface):
                 db_session.expunge_all()
                 return results
         except SQLAlchemyError as exc:
-            raise FlaskHexagonalException(type=ExceptionType.DATABASE_ERROR, message=str(exc))
+            raise FlaskHexagonalException(
+                type=ExceptionType.DATABASE_ERROR, message=str(exc)
+            )
 
 
 class PersistDBTemplateRepository(PersistTemplateRepositoryInterface):
     def insert(
-        self, name: str, tokens: List[str], external_id: str
+        self, name: str, tokens: Sequence[str], external_id: str
     ) -> TemplateInterface:
         try:
             with Session.begin() as db_session:
@@ -62,7 +66,9 @@ class PersistDBTemplateRepository(PersistTemplateRepositoryInterface):
 
                 return template
         except SQLAlchemyError as exc:
-            raise FlaskHexagonalException(type=ExceptionType.DATABASE_ERROR, message=str(exc))
+            raise FlaskHexagonalException(
+                type=ExceptionType.DATABASE_ERROR, message=str(exc)
+            )
 
 
 class DeleteDBTemplateRepository(DeleteTemplateRepositoryInterface):
@@ -76,4 +82,6 @@ class DeleteDBTemplateRepository(DeleteTemplateRepositoryInterface):
                 db_session.expunge_all()
                 return result.rowcount
         except SQLAlchemyError as exc:
-            raise FlaskHexagonalException(type=ExceptionType.DATABASE_ERROR, message=str(exc))
+            raise FlaskHexagonalException(
+                type=ExceptionType.DATABASE_ERROR, message=str(exc)
+            )

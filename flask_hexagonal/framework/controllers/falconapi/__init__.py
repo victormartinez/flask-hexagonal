@@ -3,7 +3,7 @@ from falcon import App
 from .templates import ListCreateTemplatesResource, RetrieveDeleteTemplateResource
 
 
-def create_app(*args, **config):
+def create_app() -> App:
     app = App()
 
     _configure_api(app)

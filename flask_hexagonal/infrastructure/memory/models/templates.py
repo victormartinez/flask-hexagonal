@@ -13,7 +13,7 @@ class MemoryTemplate(BaseModel):
     external_id: str
     created_at: datetime
 
-    def dict(self) -> Dict[Any, Any]:
+    def dict(self) -> Dict[Any, Any]:  # type: ignore
         return {
             "id": str(self.id),
             "name": self.name,

@@ -37,7 +37,9 @@ class BaseResource:
     POST_CONTROLLER: Optional[ActionController] = None
     DELETE_CONTROLLER: Optional[ActionController] = None
 
-    def on_get(self, req, resp, **kwargs) -> None:
+    def on_get(
+        self, req: falcon.Request, resp: falcon.Response, **kwargs: Dict[Any, Any]
+    ) -> None:
         if not self.GET_CONTROLLER:
             raise NotImplementedError("Resource.get not implemented.")
         parsed_request = to_request(req, view_args=kwargs)
@@ -46,7 +48,9 @@ class BaseResource:
         resp.text = json.dumps(response.dict())
         resp.status = response.status
 
-    def on_post(self, req, resp, **kwargs) -> None:
+    def on_post(
+        self, req: falcon.Request, resp: falcon.Response, **kwargs: Dict[Any, Any]
+    ) -> None:
         if not self.POST_CONTROLLER:
             raise NotImplementedError("Resource.post not implemented.")
         parsed_request = to_request(req, view_args=kwargs)
@@ -55,7 +59,9 @@ class BaseResource:
         resp.text = json.dumps(response.dict())
         resp.status = response.status
 
-    def on_delete(self, req, resp, **kwargs) -> None:
+    def on_delete(
+        self, req: falcon.Request, resp: falcon.Response, **kwargs: Dict[Any, Any]
+    ) -> None:
         if not self.DELETE_CONTROLLER:
             raise NotImplementedError("Resource.delete not implemented.")
         parsed_request = to_request(req, view_args=kwargs)

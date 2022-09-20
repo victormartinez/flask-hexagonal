@@ -40,8 +40,7 @@ class ListTemplatesController(ActionController):
 
     def run(self, _: Request) -> Response:
         data = [
-            TemplateOut(**t.dict())
-            for t in service.list_templates(self.repository)
+            TemplateOut(**t.dict()) for t in service.list_templates(self.repository)
         ]
         return Response(status=HTTPStatus.OK, data=data)
 
@@ -74,7 +73,7 @@ class CreateTemplateController(ActionController):
 
     def run(self, request: Request) -> Response:
         try:
-            template_in = TemplateIn(**request.json_payload)
+            template_in = TemplateIn(**request.json_payload or {})
             result = service.create_template(
                 template_in.name,
                 template_in.tokens,
@@ -86,7 +85,7 @@ class CreateTemplateController(ActionController):
                 data=TemplateOut(**result.dict()),
             )
         except ValidationError as exc:
-            details = {".".join(err["loc"]): err["msg"] for err in exc.errors()}
+            details = {".".join(str(err["loc"])): err["msg"] for err in exc.errors()}
             return Response(
                 status=HTTPStatus.BAD_REQUEST,
                 error=ErrorResponseDetails(
@@ -103,8 +102,8 @@ class DeleteTemplateController(ActionController):
 
     def run(self, request: Request) -> Response:
         try:
-            template_id = request.view_args.get("id")
-            result = service.delete_template(template_id, self.repository)
+            template_id = request.view_args.get("id", "")
+            result = service.delete_template(UUID(template_id), self.repository)
             return Response(
                 status=HTTPStatus.NO_CONTENT if result else HTTPStatus.NOT_FOUND
             )

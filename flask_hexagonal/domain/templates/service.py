@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Sequence
 from uuid import UUID
 
 from flask_hexagonal.domain.templates.interfaces.repository import (
@@ -15,7 +15,7 @@ from .interfaces import (
 
 def list_templates(
     repository: ListTemplateRepositoryInterface,
-) -> List[TemplateInterface]:
+) -> Sequence[TemplateInterface]:
     return repository.list()
 
 
