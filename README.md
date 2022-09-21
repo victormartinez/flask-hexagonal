@@ -12,8 +12,14 @@ _Flask-Hexagonal is an opinionated study-oriented implementation of Python REST 
 - Allows switching Web Frameworks interchangeably (Flask <> Falcon)
 - Allows switching Databases (Postgres <> Redis)
 - Tooling for code styling 
-- Automated Testing
 
+### Next Steps
+
+- [ ] Add unit tests
+- [ ] Add integration tests
+- [ ] Add test coverage
+- [ ] More commands to CLI
+- [ ] Add docs (OpenAPI)
 
 ## Getting Started
 
@@ -48,6 +54,21 @@ Make sure you have a properly Python & Poetry environment.
     make run
     ```
 
+### Populate database
+
+```sh
+curl -X POST http://127.0.0.1:5000/api/v1/templates/ -d '{"name": "Online Contract Template", "external_id": "16250ce4-0f9c-4c7c-b333-beef66646516", "tokens": ["CONTRACT_ID", "ISSUER_NAME"]}' -H "Content-Type: application/json"
+```
+
+### Retrieve data
+
+```sh
+curl -X POST http://127.0.0.1:5000/api/v1/templates/
+
+python -m flask_hexagonal.framework.cli list-templates --source memory
+
+python -m flask_hexagonal.framework.cli list-templates --source database
+```
 
 ### Run unit tests
 ```sh
